@@ -1,0 +1,21 @@
+{
+  "id": "14d7db2f-87d3-4c4c-89ca-8f2f901f4bb9",
+  "uid": "qui-modi-maiores",
+  "type": "my-first-publication",
+  "data": {
+    "Title": [
+      {
+        "type": "heading2",
+        "text": "Generate B2B niches",
+        "spans": []
+      }
+    ],
+    "Content": [
+      {
+        "type": "paragraph",
+        "text": "Ullamco culpa elit adipisicing anim ullamco.",
+        "spans": []
+      }
+    ]
+  }
+}

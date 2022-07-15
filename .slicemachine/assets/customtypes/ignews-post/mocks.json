@@ -1,0 +1,21 @@
+{
+  "id": "6b36cb29-ba4c-4254-987d-8c984e9b4ab3",
+  "uid": "sed-sint-non",
+  "type": "ignews-post",
+  "data": {
+    "title": [
+      {
+        "type": "paragraph",
+        "text": "Est tempor in deserunt esse nostrud deserunt deserunt pariatur id.",
+        "spans": []
+      }
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Amet ad officia sit eu sint nostrud est adipisicing ad labore nisi tempor. Proident adipisicing exercitation non. Cillum excepteur non dolor qui qui consectetur duis exercitation esse cillum et reprehenderit cupidatat in.",
+        "spans": []
+      }
+    ]
+  }
+}

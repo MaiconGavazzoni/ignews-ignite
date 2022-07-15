@@ -1,0 +1,16 @@
+{
+  "_cts": {
+    "my-first-publication": {
+      "Title": {
+        "config": {
+          "patternType": "HEADING",
+          "blocks": 1
+        }
+      }
+    },
+    "ignews-post": {}
+  },
+  "slices": {
+    "MySlice": {}
+  }
+}
