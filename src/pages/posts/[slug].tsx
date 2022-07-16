@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     //console.log("Redirecionar para home");
     return {
       redirect: {
-        destination: '/',
+        destination: `/posts/preview/${slug}`,
         permanent: false,
       }
     }
