@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "types": [
-      "reflect-metadata",
       "jest",
       "mocha",
       "node",
