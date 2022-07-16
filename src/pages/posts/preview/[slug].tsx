@@ -1,11 +1,12 @@
 
 import { GetStaticPaths, GetStaticProps } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RichText } from 'prismic-dom';
 import { useEffect } from "react";
+import { getPrismicClient } from "../../../services/prismicio";
 import styles from '../post.module.scss';
 
 interface PostPreview {
@@ -71,40 +72,31 @@ export const getStaticProps: GetStaticProps = async ({
 
   const { slug } = params;
 
-  // const client = createClient({ previewData })
+  const client = getPrismicClient({});
 
-  // const pages = client.getByUID('publication', String(slug), {});
+  const response = await client.getByUID('ignews-post', String(slug), {}) as any;
+  const cut: [] = response.data.content;
+  console.log("Original", cut);
 
-  // const post = response.results.map(post => {
-  //   return {
-  //     slug,
-  //     title: RichText.asText(post.data.title),
-  //     excerpt: RichText.asHtml(post.data.content),
-  //     updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-  //       day: '2-digit',
-  //       month: 'long',
-  //       year: 'numeric'
-  //     })
-  //   }
-  // })
+  const content = cut.map((dado: any) => {
+    const texto = dado.text.split('\n', 2)
+    return {
+      ...dado,
+      text: texto
+    }
+  });
 
-  const posts = [
-    {
-      slug: "my-first-publication",
-      title: "Test Fake",
-      content: "<h3>Lorem Ipsum is simply dummy </h3>",
-      updatedAt: "12 de março"
-    },
-    {
-      slug: "my-second-publication",
-      title: "Test2 Fake 2",
-      content: "<h3>Lorem Ipsum is simply dummy text text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </h3>",
-      updatedAt: "13 de março"
-    },
-  ]
-
-  const post = posts.find(post => post.slug == slug);
-
+  console.log("Cortada", content);
+  const post = {
+    slug,
+    title: RichText.asText(response.data.title),
+    content: RichText.asHtml(content),
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })
+  };
 
 
 

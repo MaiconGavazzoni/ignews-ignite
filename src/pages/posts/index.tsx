@@ -31,11 +31,11 @@ export default function Posts({ posts }: PostsProps) {
       <main className={styles.container}>
         <div className={styles.posts}>
           {posts.map(post => (
-            <Link key={post.slug} href={`/posts/${post.slug}`}>
+            <Link key={post.slug} href={`/posts/preview/${post.slug}`}>
               <a >
                 <time>{post.updatedAt}</time>
                 <strong>{post.title}</strong>
-                <p>{post.excerpt}</p>
+                <p>{post.excerpt}...</p>
               </a>
             </Link>
           ))}
@@ -49,48 +49,44 @@ export default function Posts({ posts }: PostsProps) {
 
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const client = getPrismicClient({});
+export const getStaticProps: GetStaticProps = async ({ previewData }) => {
+  const client = getPrismicClient({ previewData });
   console.log(client);
 
   const pages = await client.getAllByType('ignews-post');
-
-  //const page = await client.getByUID('posts', 'my-first-publication');
-  console.log("Paginas: " + JSON.stringify(pages, null, 2));
-  //console.log(page);
-  const page = JSON.stringify(pages, null, 2);
 
   console.log(pages);
 
   //construir os posts fakes pois não consegui acessar a API do Prismic 
 
-  // const posts = response.results.map(post => {
-  //   return {
-  //     slug: post.uid,
-  //     title: RichText.asText(post.data.title),
-  //     excerpt: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
-  //     updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-  //       day: '2-digit',
-  //       month: 'long',
-  //       year: 'numeric'
-  //     })
-  //   }
-  // })
+  const posts = pages.map(post => {
+    const firstParagraph: string = post.data.content.find(content => content.type === 'paragraph')?.text ?? '';
+    return {
+      slug: post.uid,
+      title: RichText.asText(post.data.title),
+      excerpt: firstParagraph.split('.')[0],
+      updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      })
+    }
+  })
 
-  const posts = [
-    {
-      slug: "my-first-publication",
-      title: "Test Fake",
-      excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
-      updatedAt: "12 de março"
-    },
-    {
-      slug: "my-second-publication",
-      title: "Test2 Fake 2",
-      excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
-      updatedAt: "13 de março"
-    },
-  ]
+  // const posts = [
+  //   {
+  //     slug: "my-first-publication",
+  //     title: "Test Fake",
+  //     excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
+  //     updatedAt: "12 de março"
+  //   },
+  //   {
+  //     slug: "my-second-publication",
+  //     title: "Test2 Fake 2",
+  //     excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
+  //     updatedAt: "13 de março"
+  //   },
+  // ]
 
   return {
     props: { posts }, // Will be passed to the page component as props

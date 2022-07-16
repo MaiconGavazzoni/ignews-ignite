@@ -10,6 +10,7 @@ import { enableAutoPreviews } from '@prismicio/next';
 
 export interface PrismicConfig {
   req?: HttpRequestLike;
+  previewData?: any;
 }
 
 // Update the Link Resolver to match your project's route structure
@@ -30,11 +31,13 @@ export function linkResolver(doc: any) {
 //     ...config,
 //   })
 export function getPrismicClient(config: PrismicConfig): prismic.Client {
-  const client = prismic.createClient(process.env.PRISMIC_API_ENDPOINT);
+  const client = prismic.createClient(process.env.PRISMIC_API_ENDPOINT, {
+    accessToken: process.env.PRISMIC_ACCESS_TOKEN
+  });
 
   enableAutoPreviews({
     client,
-    //previewData: config.previewData,
+    previewData: config.previewData,
     req: config.req,
   })
 

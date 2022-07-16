@@ -17,10 +17,12 @@ interface PostProps {
 
 
 export default function Post({ post }: PostProps) {
+  console.log(post);
   return (
     <>
       <Head>
         <title>{post.title} | Ignews</title>
+
       </Head>
 
       <main className={styles.container}>
@@ -45,9 +47,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   const { slug } = params;
 
 
-  console.log("Peguei sessão: ", session);
+  //console.log("Peguei sessão: ", session);
   if (!session?.activeSubscription) {
-    console.log("Redirecionar para home");
+    //console.log("Redirecionar para home");
     return {
       redirect: {
         destination: '/',
@@ -59,37 +61,18 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const client = getPrismicClient({});
 
-  const response = await client.getByUID('my-first-publication', String(slug), {});
-  console.log(response);
-  // const post = response.results.map(post => {
-  //   return {
-  //     slug,
-  //     title: RichText.asText(post.data.title),
-  //     excerpt: RichText.asHtml(post.data.content),
-  //     updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-  //       day: '2-digit',
-  //       month: 'long',
-  //       year: 'numeric'
-  //     })
-  //   }
-  // }) as PostProps;
+  const response = await client.getByUID('ignews-post', String(slug), {}) as any;
 
-  const posts = [
-    {
-      slug: "my-first-publication",
-      title: "Test Fake",
-      content: "<h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has</h3>",
-      updatedAt: "12 de março"
-    },
-    {
-      slug: "my-second-publication",
-      title: "Test2 Fake 2",
-      content: "<h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has</h3>",
-      updatedAt: "13 de março"
-    },
-  ]
-
-  const post = posts.find(post => post.slug == slug);
+  const post = {
+    slug,
+    title: RichText.asText(response.data.title),
+    content: RichText.asHtml(response.data.content),
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })
+  };
 
   return {
     props: { post }
