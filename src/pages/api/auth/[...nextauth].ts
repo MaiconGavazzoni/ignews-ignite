@@ -14,8 +14,8 @@ export default NextAuth({
       authorization: {
         params: {
           scope: "read:user"
-        }
-      }
+        },
+      },
     }),
     // ...add more providers here
   ],

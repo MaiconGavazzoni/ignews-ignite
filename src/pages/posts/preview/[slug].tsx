@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   const response = await client.getByUID('ignews-post', String(slug), {}) as any;
   const cut: [] = response.data.content;
-  console.log("Original", cut);
+
 
   const content = cut.map((dado: any) => {
     const texto = dado.text.split('\n', 2)
@@ -86,7 +86,7 @@ export const getStaticProps: GetStaticProps = async ({
     }
   });
 
-  console.log("Cortada", content);
+  //console.log("Cortada", content);
   const post = {
     slug,
     title: RichText.asText(response.data.title),

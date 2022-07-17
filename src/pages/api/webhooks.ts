@@ -60,7 +60,7 @@ export default async function webhooks(request: NextApiRequest, response: NextAp
             await saveSubscription(
               subscription.id,
               subscription.customer.toString(),
-              false,
+              true,
             );
 
             break;

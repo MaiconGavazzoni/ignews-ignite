@@ -51,11 +51,10 @@ export default function Posts({ posts }: PostsProps) {
 
 export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   const client = getPrismicClient({ previewData });
-  console.log(client);
+
 
   const pages = await client.getAllByType('ignews-post');
 
-  console.log(pages);
 
   //construir os posts fakes pois não consegui acessar a API do Prismic 
 
@@ -73,20 +72,6 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
     }
   })
 
-  // const posts = [
-  //   {
-  //     slug: "my-first-publication",
-  //     title: "Test Fake",
-  //     excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
-  //     updatedAt: "12 de março"
-  //   },
-  //   {
-  //     slug: "my-second-publication",
-  //     title: "Test2 Fake 2",
-  //     excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has",
-  //     updatedAt: "13 de março"
-  //   },
-  // ]
 
   return {
     props: { posts }, // Will be passed to the page component as props
