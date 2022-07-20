@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps = async ({ previewData }) => {
   const pages = await client.getAllByType('ignews-post');
 
 
-  //construir os posts fakes pois não consegui acessar a API do Prismic 
+
 
   const posts = pages.map(post => {
     const firstParagraph: string = post.data.content.find(content => content.type === 'paragraph')?.text ?? '';
